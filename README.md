@@ -2,7 +2,7 @@
 
 ```React Native Expo```
 
-![alt]<img src="https://cdn.jsdelivr.net/gh/renaldi99/assets-cdn@master/image/travel-app.jpg" width="400" height="790">
+<img src="https://cdn.jsdelivr.net/gh/renaldi99/assets-cdn@master/image/travel-app.jpg" width="414" height="896">
 
 ---
 
