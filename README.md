@@ -1,8 +1,6 @@
 # Travel Mobile App 📱
-
-Markup: - React Native Expo
-        - ![alt](https://cdn.jsdelivr.net/gh/renaldi99/assets-cdn@master/image/travel-app.jpg){:height="50%" width="50%"}
-
+Markup : ```React Native Expo
+         ```![alt](https://cdn.jsdelivr.net/gh/renaldi99/assets-cdn@master/image/travel-app.jpg){:height="50%" width="50%"}
 ---
 
 ```
