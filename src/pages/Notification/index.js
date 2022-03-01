@@ -1,15 +1,15 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
+import React, {Component} from 'react';
 
-const Notification = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Notification Screen</Text>
-    </View>
-  );
-};
-
-export default Notification;
+export default class Notification extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Notification Screen</Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

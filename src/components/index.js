@@ -1,4 +1,2 @@
-import BottomNavigator from './BottomNavigator';
-import TabItem from './TabItem';
-
-export {BottomNavigator, TabItem};
+export * from './besar';
+export * from './kecil';

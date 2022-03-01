@@ -9,7 +9,7 @@ import {
   IconNotificationActive,
   IconProfile,
   IconProfileActive,
-} from '../../assets';
+} from '../../../assets';
 
 const TabItem = ({label, isFocused, onPress, onLongPress}) => {
   const Icon = () => {

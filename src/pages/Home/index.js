@@ -1,116 +1,135 @@
-import React, {useState} from 'react';
+import React, {Component} from 'react';
 import {
   FlatList,
   Image,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {IconMic, IconSearch, IconStarReview} from '../../assets';
+import {
+  IconMic,
+  IconSearch,
+  IconStarReview,
+  ProfileImage,
+  IconNotification,
+} from '../../assets';
+import {BannerSlider} from '../../components';
 import {DataCategory, DataPopular, DataTravel} from '../../data';
 import {colors, fonts} from '../../utils';
 
-const Home = () => {
-  const [popular, setDataPopular] = useState(DataPopular);
-  const [category, setDataCategory] = useState(DataCategory);
-  const [travel, setDataTravel] = useState(DataTravel);
+export default class Home extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <View style={styles.sectionHeader}>
-        <View style={styles.textHeader}>
-          <Text style={styles.titleHeaderName}>Hello, Renaldi 👋</Text>
-          <Text style={styles.textBot}>Explore the beautiful world!</Text>
-        </View>
-        <Image
-          style={styles.imageProfile}
-          source={require('../../assets/images/img-profile.png')}
-        />
-      </View>
+    this.state = {
+      popular: DataPopular,
+      category: DataCategory,
+      travel: DataTravel,
+    };
+  }
 
-      <View style={styles.sectionSearchBar}>
-        <View style={styles.searchBar}>
-          <IconSearch />
-          <TextInput style={styles.inputSearch} placeholder="Search..." />
-        </View>
-        <TouchableOpacity style={styles.iconMic}>
-          <IconMic />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.sectionPopularTravel}>
-        <View style={styles.textPopularTravel}>
-          <Text style={styles.titleLeftopular}>Popular Destination</Text>
-          <Text style={styles.titleRightPopular}>See all</Text>
+  render() {
+    const {popular, category, travel} = this.state;
+    return (
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <StatusBar backgroundColor="#BDBDBD" />
+        <View style={styles.sectionHeader}>
+          <View style={styles.textHeader}>
+            <Text style={styles.titleHeaderName}>Hello, Renaldi 👋</Text>
+            <Text style={styles.textBot}>Explore the beautiful world!</Text>
+          </View>
+          <View style={styles.sectionHeaderRight}>
+            <TouchableOpacity>
+              <IconNotification />
+            </TouchableOpacity>
+            <Image style={styles.imageProfile} source={ProfileImage} />
+          </View>
         </View>
 
-        <FlatList
-          data={popular}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity style={styles.containerCardPopular}>
-              <Image style={styles.imageCardPopular} source={item.image} />
-              <View style={styles.sectionContentPopular}>
-                <Text style={styles.titlePopular}>{item.title}</Text>
-                <View style={styles.contentBottom}>
-                  <View style={styles.wrapperReview}>
-                    <IconStarReview />
-                    <Text style={styles.textReview}>4.8 (20 Review)</Text>
+        <BannerSlider />
+        <View style={styles.sectionSearchBar}>
+          <View style={styles.searchBar}>
+            <IconSearch />
+            <TextInput style={styles.inputSearch} placeholder="Search..." />
+          </View>
+          <TouchableOpacity style={styles.iconMic}>
+            <IconMic />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.sectionPopularTravel}>
+          <View style={styles.textPopularTravel}>
+            <Text style={styles.titleLeftopular}>Popular Destination</Text>
+            <Text style={styles.titleRightPopular}>See all</Text>
+          </View>
+
+          <FlatList
+            data={popular}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+              <TouchableOpacity style={styles.containerCardPopular}>
+                <Image style={styles.imageCardPopular} source={item.image} />
+                <View style={styles.sectionContentPopular}>
+                  <Text style={styles.titlePopular}>{item.title}</Text>
+                  <View style={styles.contentBottom}>
+                    <View style={styles.wrapperReview}>
+                      <IconStarReview />
+                      <Text style={styles.textReview}>4.8 (20 Review)</Text>
+                    </View>
+                    <Text style={styles.textPrice}>${item.price}</Text>
                   </View>
-                  <Text style={styles.textPrice}>${item.price}</Text>
                 </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
 
-      <View style={styles.sectionCategory}>
-        <Text style={styles.titleCategory}>Category</Text>
-      </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.wrapperCategory}>
-        <View style={styles.spaceWidth} />
-        {category.map((item, index) => {
-          return (
-            <TouchableOpacity
-              style={styles.containerCardCategory(item.colorCard)}
-              key={index}>
-              <View style={styles.wrapperContentCategory}>
-                {item.icon}
-                <Text style={styles.textCategory}>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
+        <View style={styles.sectionCategory}>
+          <Text style={styles.titleCategory}>Category</Text>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.wrapperCategory}>
+          <View style={styles.spaceWidth} />
+          {category.map((item, index) => {
+            return (
+              <TouchableOpacity
+                style={styles.containerCardCategory(item.colorCard)}
+                key={index}>
+                <View style={styles.wrapperContentCategory}>
+                  {item.icon}
+                  <Text style={styles.textCategory}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+
+        <View style={styles.containerListTravel}>
+          <Text style={styles.textTitleListTravel}>We’ve Prepared For You</Text>
+          {travel.map((item, index) => {
+            return (
+              <TouchableOpacity style={styles.containerCardTravel} key={index}>
+                <Image style={styles.imageTravel} source={item.image} />
+                <Text style={styles.titleCardTravel}>{item.title}</Text>
+                <Text style={styles.contentCardTravel}>{item.content}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        <View style={{height: 30}} />
       </ScrollView>
-
-      <View style={styles.containerListTravel}>
-        <Text style={styles.textTitleListTravel}>We’ve Prepared For You</Text>
-        {travel.map((item, index) => {
-          return (
-            <TouchableOpacity style={styles.containerCardTravel} key={index}>
-              <Image style={styles.imageTravel} source={item.image} />
-              <Text style={styles.titleCardTravel}>{item.title}</Text>
-              <Text style={styles.contentCardTravel}>{item.content}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      <View style={{height: 50}} />
-    </ScrollView>
-  );
-};
-
-export default Home;
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -124,6 +143,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  sectionHeaderRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   titleHeaderName: {
     fontFamily: fonts.main.robotoMedium,
     fontSize: 18,
@@ -135,9 +158,10 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   imageProfile: {
-    width: 60,
-    height: 60,
-    borderRadius: 60 / 2,
+    width: 50,
+    height: 50,
+    borderRadius: 50 / 2,
+    marginLeft: 10,
   },
   sectionSearchBar: {
     marginHorizontal: 30,
