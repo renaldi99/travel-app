@@ -1,7 +1,15 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, ListTravel, Login, Profile, Register, Splash} from '../pages';
+import {
+  Bookmark,
+  Home,
+  ListTravel,
+  Login,
+  Profile,
+  Register,
+  Splash,
+} from '../pages';
 import {BottomNavigator} from '../components';
 
 const Tab = createBottomTabNavigator();
@@ -16,6 +24,11 @@ const MainApp = () => {
       <Tab.Screen
         name="ListTravel"
         component={ListTravel}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="Bookmark"
+        component={Bookmark}
         options={{headerShown: false}}
       />
       <Tab.Screen

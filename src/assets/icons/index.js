@@ -21,6 +21,8 @@ import IconPassword from './icon-password.svg';
 import IconFaq from './icon-faq.svg';
 import IconSupport from './icon-support-center.svg';
 import IconRight from './icon-arrow-right.svg';
+import IconBookmarkActive from './icon-bookmark-active.svg';
+import IconBookmark from './icon-bookmark.svg';
 
 export {
   IconHomeActive,
@@ -46,4 +48,6 @@ export {
   IconFaq,
   IconSupport,
   IconRight,
+  IconBookmarkActive,
+  IconBookmark,
 };

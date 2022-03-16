@@ -22,6 +22,18 @@ export default class Login extends Component {
       background: BannerImage,
     };
   }
+
+  login = () => {
+    const {email, password} = this.state;
+    const {dispatch} = this.props;
+
+    if (email && password) {
+      // dispatch(loginUser(email, password));
+    } else {
+      alert("Email and Password can't be empty");
+    }
+  };
+
   render() {
     const {email, password, background} = this.state;
     const {navigation} = this.props;
@@ -70,7 +82,13 @@ export default class Login extends Component {
             </View>
 
             <View style={{paddingHorizontal: 30}}>
-              <Button type="text" title="Login" padding={15} color="#1796DE" />
+              <Button
+                type="text"
+                title="Login"
+                padding={15}
+                color="#1796DE"
+                onPress={() => this.login()}
+              />
             </View>
             <View style={styles.sectionRegisterAccount}>
               <Text style={styles.TitleRegisterAccount}>
@@ -113,14 +131,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   title: {
-    fontFamily: fonts.main.robotoReguler,
+    fontFamily: fonts.main.robotoBold,
     fontSize: 20,
     color: colors.white,
   },
   text: {
     marginTop: 10,
     fontFamily: fonts.main.robotoLight,
-    fontSize: 18,
+    fontSize: 14,
     color: colors.white,
   },
   sectionInput: {

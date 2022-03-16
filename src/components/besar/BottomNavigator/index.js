@@ -57,9 +57,24 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: colors.white,
+    borderRadius: 30,
     paddingHorizontal: 35,
     paddingVertical: 19,
     justifyContent: 'space-between',
-    borderTopWidth: 0.2,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    marginBottom: 20,
+    marginHorizontal: 30,
+    shadowColor: '#6A6868',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
   },
 });

@@ -1,12 +1,12 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
+  IconBookmark,
+  IconBookmarkActive,
   IconHome,
   IconHomeActive,
   IconList,
   IconListActive,
-  IconNotification,
-  IconNotificationActive,
   IconProfile,
   IconProfileActive,
 } from '../../../assets';
@@ -19,8 +19,8 @@ const TabItem = ({label, isFocused, onPress, onLongPress}) => {
     if (label === 'ListTravel') {
       return isFocused ? <IconListActive /> : <IconList />;
     }
-    if (label === 'Notification') {
-      return isFocused ? <IconNotificationActive /> : <IconNotification />;
+    if (label === 'Bookmark') {
+      return isFocused ? <IconBookmarkActive /> : <IconBookmark />;
     }
     if (label === 'Profile') {
       return isFocused ? <IconProfileActive /> : <IconProfile />;

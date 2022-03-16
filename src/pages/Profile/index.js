@@ -1,30 +1,69 @@
 import React, {Component} from 'react';
 import {
-  Dimensions,
-  FlatList,
   Image,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
-import {Button, ListMenu} from '../../components';
+import {ListMenu} from '../../components';
 import {DataMenu, DataUser} from '../../data';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {colors, fonts, heightMobileUI, responsiveHeight} from '../../utils';
-import {get} from 'react-native/Libraries/Utilities/PixelRatio';
 import {IconLeft, IconSignOut} from '../../assets';
+import FIREBASE from '../../config/FIREBASE';
+import {clearStorage, getData} from '../../utils/localStorage';
+import {DefaultImage} from '../../assets/images/index';
 
 export default class index extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dataUser: DataUser,
+      dataUser: false,
       dataMenu: DataMenu,
     };
   }
+
+  logout = () => {
+    const {navigation} = this.props;
+    Alert.alert('Warning', 'Are you sure want to sign out ?', [
+      {
+        text: 'No',
+        onPress: () => null,
+        styles: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () =>
+          FIREBASE.auth()
+            .signOut()
+            .then(() => {
+              clearStorage();
+              navigation.replace('Login');
+            })
+            .catch(error => {
+              alert(error);
+            }),
+      },
+    ]);
+  };
+
+  componentDidMount = () => {
+    getData('user').then(res => {
+      const data = res;
+      console.log(data);
+
+      if (data) {
+        this.setState({
+          dataUser: data,
+        });
+      } else {
+        // alert not login
+      }
+    });
+  };
 
   render() {
     const {navigation} = this.props;
@@ -38,23 +77,36 @@ export default class index extends Component {
         </View>
 
         <View style={styles.sectionProfile}>
-          <Image style={styles.sectionImageProfile} source={dataUser.avatar} />
-          <Text style={styles.textName}>{dataUser.nama}</Text>
+          <Image
+            style={styles.sectionImageProfile}
+            source={dataUser.avatar ? dataUser.avatar : DefaultImage}
+          />
+          <Text style={styles.textName}>
+            {dataUser.nama ? dataUser.nama : 'Guest'}
+          </Text>
           <View style={styles.sectionInfo}>
-            <Text style={styles.textNumber}>{dataUser.nomorHp}</Text>
-            <View style={styles.line} />
-            <Text style={styles.textEmail}>{dataUser.email}</Text>
+            <Text style={styles.textNumber}>
+              {dataUser.nomorHp ? dataUser.nomorHp : ''}
+            </Text>
+            {dataUser ? <View style={styles.line} /> : null}
+            <Text style={styles.textEmail}>
+              {dataUser.email ? dataUser.email : ''}
+            </Text>
           </View>
-          <TouchableOpacity style={styles.buttonMenuEdit}>
-            <Text style={styles.textEditProfile}>Edit Profile</Text>
-          </TouchableOpacity>
+          {dataUser ? (
+            <TouchableOpacity style={styles.buttonMenuEdit}>
+              <Text style={styles.textEditProfile}>Edit Profile</Text>
+            </TouchableOpacity>
+          ) : (
+            <Text>Please Login</Text>
+          )}
         </View>
 
         <ListMenu menus={dataMenu} navigation={navigation} />
 
         <TouchableOpacity
           style={styles.buttonMenuSignOut}
-          onPress={() => navigation.navigate('Login')}>
+          onPress={() => this.logout()}>
           <IconSignOut />
           <Text style={styles.textSignOut}>Sign Out</Text>
         </TouchableOpacity>

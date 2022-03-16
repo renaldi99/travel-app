@@ -3,6 +3,7 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import {IconLeft} from '../../../assets/icons';
 import {colors} from '../../../utils';
 import TextOnly from './TextOnly';
+import ButtonLoading from './ButtonLoading';
 
 const Button = props => {
   const Icon = () => {
@@ -13,7 +14,11 @@ const Button = props => {
     }
   };
 
-  const {icon, padding, shadow, onPress, type} = props;
+  const {icon, padding, shadow, onPress, type, loading} = props;
+
+  if (loading) {
+    return <ButtonLoading {...props} />;
+  }
 
   if (type === 'text') {
     return <TextOnly {...props} />;

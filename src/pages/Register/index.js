@@ -11,8 +11,11 @@ import {colors, fonts, heightMobileUI, responsiveHeight} from '../../utils';
 import {BannerImage, Logo} from '../../assets';
 import {Button, Inputan} from '../../components';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {registerUser} from '../../actions/AuthAction';
+import {connect} from 'react-redux';
+import FIREBASE from '../../config/FIREBASE';
 
-export default class Register extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
 
@@ -24,9 +27,38 @@ export default class Register extends Component {
       background: BannerImage,
     };
   }
+
+  onSubmit = () => {
+    const {email, password, name, noHp} = this.state;
+    const {dispatch} = this.props;
+
+    if (email === '' || password === '' || name === '' || noHp === '') {
+      alert('Data tidak boleh kosong');
+    } else {
+      const data = {
+        name: name,
+        email: email,
+        noHp: noHp,
+      };
+
+      dispatch(registerUser(data, password));
+    }
+  };
+
+  componentDidUpdate = prevProps => {
+    const {navigation, registerUserResult} = this.props;
+
+    if (
+      registerUserResult &&
+      prevProps.registerUserResult !== registerUserResult
+    ) {
+      navigation.replace('MainApp');
+    }
+  };
+
   render() {
     const {email, password, name, noHp, background} = this.state;
-    const {navigation} = this.props;
+    const {navigation, registerUserLoading} = this.props;
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#111D1C" />
@@ -97,12 +129,14 @@ export default class Register extends Component {
                 title="Register"
                 padding={15}
                 color="#1796DE"
+                onPress={() => this.onSubmit()}
+                loading={registerUserLoading}
               />
             </View>
             <View style={styles.sectionRegisterAccount}>
               <Text style={styles.TitleRegisterAccount}>Have an account?</Text>
               <Text
-                onPress={() => navigation.navigate('Register')}
+                onPress={() => navigation.navigate('Login')}
                 style={styles.TextRegisterAccount}>
                 Login
               </Text>
@@ -113,6 +147,14 @@ export default class Register extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  registerUserLoading: state.AuthReducer.registerUserLoading,
+  registerUserResult: state.AuthReducer.registerUserResult,
+  registerUserError: state.AuthReducer.registerUserError,
+});
+
+export default connect(mapStateToProps, null)(Register);
 
 const styles = StyleSheet.create({
   container: {
@@ -138,14 +180,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   title: {
-    fontFamily: fonts.main.robotoReguler,
+    fontFamily: fonts.main.robotoBold,
     fontSize: 20,
     color: colors.white,
   },
   text: {
     marginTop: 10,
     fontFamily: fonts.main.robotoLight,
-    fontSize: 18,
+    fontSize: 14,
     color: colors.white,
   },
   sectionInput: {

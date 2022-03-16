@@ -18,8 +18,10 @@ import {
   IconNotification,
 } from '../../assets';
 import {BannerSlider} from '../../components';
+import FIREBASE from '../../config/FIREBASE';
 import {DataCategory, DataPopular, DataTravel} from '../../data';
 import {colors, fonts} from '../../utils';
+import {getData} from '../../utils/localStorage';
 
 export default class Home extends Component {
   constructor(props) {
@@ -29,17 +31,38 @@ export default class Home extends Component {
       popular: DataPopular,
       category: DataCategory,
       travel: DataTravel,
+      profile: false,
     };
   }
 
+  getDataUser = () => {
+    getData('user').then(res => {
+      const data = res;
+
+      if (data) {
+        this.setState({
+          profile: data,
+        });
+      } else {
+        alert('You are not login');
+      }
+    });
+  };
+
+  componentDidMount = () => {
+    this.getDataUser();
+  };
+
   render() {
-    const {popular, category, travel} = this.state;
+    const {popular, category, travel, profile} = this.state;
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         <StatusBar backgroundColor="#BDBDBD" />
         <View style={styles.sectionHeader}>
           <View style={styles.textHeader}>
-            <Text style={styles.titleHeaderName}>Hello, Renaldi 👋</Text>
+            <Text style={styles.titleHeaderName}>
+              Hello, {profile ? profile.name : 'Travelers'} 👋
+            </Text>
             <Text style={styles.textBot}>Explore the beautiful world!</Text>
           </View>
           <View style={styles.sectionHeaderRight}>
@@ -124,8 +147,8 @@ export default class Home extends Component {
             );
           })}
         </View>
-
-        <View style={{height: 30}} />
+        {/* space between navigation with content */}
+        <View style={{height: 100}} />
       </ScrollView>
     );
   }
@@ -294,7 +317,7 @@ const styles = StyleSheet.create({
   },
   containerCardTravel: {
     borderRadius: 12,
-    marginBottom: 20,
+    marginBottom: 30,
     overflow: 'hidden',
   },
   imageTravel: {
